@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>APIs </title>
+
+    <style>
+        .card{
+            width: 400px;
+            margin: auto;
+            text-align: center;
+            background-color: aqua;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .image{
+            height: 200px;
+            width: 200px;
+            border-radius: 10px;
+            border: 30px;
+            border-color: white;
+        }
+        .bar{
+            display: flex;
+            justify-content: space-around;
+
+        }
+
+        .header{
+            display: flex;
+            justify-content: center;
+        }
+        .inputLocation{
+
+            height: 30px;
+            width: 200px;
+            border-radius: 5px;
+            padding-left: 10px;
+            border: none;
+            box-shadow: -5px -5px 9px #ffffff73, 5px 5px 7px #5e687949;
+            margin-right: 10px;
+
+        }
+        .search{
+            border: none;
+            border-radius: 5px;
+            box-shadow: -5px -5px 9px #ffffff73, 5px 5px 7px #5e687949;
+            background-color: #fff;
+
+        }
+        .temp{
+            margin-top: 10xp;
+            font-size: 80px;
+        }
+
+        .hu{
+            height: 35px;
+            width: 35px;
+            filter: drop-shadow(5px 5px 5px #222); 
+        }
+
+        .wi{
+            height: 35px;
+            width: 35px;
+            filter: drop-shadow(5px 5px 5px #222); 
+        }
+        .footer{
+            justify-content: space-around;
+            display: flex;
+        }
+        .hum{
+           
+            justify-content: center;
+            text-align: center;
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 8px;
+            width: 70px;
+            box-shadow: -5px -5px 9px #ffffff73, 5px 5px 7px #5e687949;
+
+        }
+
+        .win{
+            justify-content: center;
+            text-align: center;
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 8px;
+            width: 70px;
+            box-shadow: -5px -5px 9px #ffffff73, 5px 5px 7px #5e687949;
+
+        }
+        h4{
+            margin-top: -2px;
+        }
+        h5{
+            margin-top: -17px;
+            margin-bottom: -1px;
+        }
+        .cloud{
+            filter: drop-shadow(5px 5px 5px #222); 
+
+
+        }
+        
+    </style>
+</head>
+<body>
+   <div class="card">
+    <form>
+        <div class="header">
+            <input type="text" placeholder="Location..." class="inputLocation">
+        <button class="search">Search</button>
+        </div> 
+    </form>
+    <img src="cloudy.png" alt="" height="160px" width="160px" class="cloud">
+    <h1 class="temp"></h1>
+    <h2 class="co"></h2>
+
+    <div class="footer">
+        <div class="hum">
+            <img src="humidity.png" alt="" class="hu">
+            <div class="text1">
+                <h4 class="perc">we</h4>
+                <h5 clsaa="tags">Humidity</h5>
+            </div>
+        </div>
+
+        <div class="win">
+            <img src="storm.png" alt="" class="wi">
+            <div class="text1">
+                <h4 class="speed">we</h4>
+            <h5 class="tags" >Wind Speed</h5>
+            </div>
+        </div>
+    </div>
+
+
+
+   </div> 
+</body>
+
+<script>
+
+
+ const form = document.querySelector('form');
+ 
+ form.addEventListener('submit', function(e){
+    e.preventDefault();
+    const city = document.querySelector('.inputLocation').value;
+ 
+
+    const hum = document.querySelector('.perc');
+    const windS = document.querySelector('.speed');
+    const temp = document.querySelector('.temp');
+    const co = document.querySelector('.co');
+
+    const apiKey = "42d971fba44d26efe148cf7f80085613"
+    const apiRequestLocal = "https://api.openweathermap.org/data/2.5/weather?q="+city+"&appid="+apiKey;
+    const requestUrl = apiRequestLocal;
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', requestUrl);
+  xhr.onreadystatechange = function(){
+  
+      console.log(xhr.readyState);
+      if (xhr.readyState === 4){
+        const data = JSON.parse(this.responseText);
+
+        console.log(data)
+        console.log(typeof data)
+        const tempNew = Math.floor(data.main.temp) - 273;
+        
+        temp.innerHTML =  tempNew+ " C"
+        co.innerHTML = data.name; 
+
+    windS.innerHTML = data.wind.speed + " km/h";
+
+    hum.innerHTML = data.main.humidity + " %"
+
+ 
+}
+
+  }
+    xhr.send();
+
+})
+    
+</script>
+</html>
